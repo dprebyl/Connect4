@@ -30,3 +30,13 @@ body {
 #board td.red .chip {
 	background: #c44;
 }
+#msg {
+	width: 384px;
+	margin: auto;
+	font: 20px sans-serif;
+	text-align: center;
+	background: white;
+	border: thin solid black;
+	margin-top: 8px;
+	padding: 4px;
+}
