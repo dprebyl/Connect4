@@ -28,11 +28,18 @@ function clickCol(col) {
 	for (let row = 1; row <= ROWS; row++) {
 		if (getChip(row, col) === "blank") {
 			setChip(row, col, curPlayerIsRed ? "red" : "black");
-			if (checkWin(row, col)) alert("You win!");
-			curPlayerIsRed = !curPlayerIsRed;
-			break;
+			if (checkWin(row, col)) {
+				msg((curPlayerIsRed ? "Red" : "Black") + " player wins!");
+				curPlayerIsRed = !curPlayerIsRed; // Allows continued play
+			}
+			else {
+				curPlayerIsRed = !curPlayerIsRed;
+				msg((curPlayerIsRed ? "Red" : "Black") + " player's turn");
+			}
+			return;
 		}
 	}
+	msg("Invalid move (column full)");
 }
 
 function checkWin(row, col) {
@@ -59,4 +66,8 @@ function getChip(row, col) {
 
 function setChip(row, col, type) {
 	document.getElementById("cell"+row+col).className = type;
+}
+
+function msg(m) {
+		document.getElementById("msg").innerText = m;
 }
