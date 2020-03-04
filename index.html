@@ -7,5 +7,16 @@
 		<script src="script.js"></script>
 	</head>
 	<body>
+		<table id="board">
+			<script>
+				for (var row = 6; row >= 1; row--) {
+					document.write("<tr>");
+					for (var col = 1; col <= 7; col++) {
+						document.write('<td id="cell'+row+col+'"><div class="chip blank"></div></td>');
+					}
+					document.write("</tr>");
+				}
+			</script>
+		</table>
 	</body>
 </html>

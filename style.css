@@ -1,0 +1,21 @@
+body {
+	background: #35c;
+}
+#board {
+	margin: auto;
+	border-collapse: collapse;
+}
+#board td {
+	width: 64px;
+	height: 64px;
+	background: #ff3;
+}
+.chip {
+	width: 52px;
+	height: 52px;
+	margin: 8px;
+	border-radius: 27px;
+}
+.chip.blank {
+	background: white;
+}
