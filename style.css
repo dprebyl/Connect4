@@ -3,6 +3,7 @@ body {
 }
 #board {
 	margin: auto;
+	border: thin solid black;
 	border-collapse: collapse;
 }
 #board td {
@@ -10,12 +11,22 @@ body {
 	height: 64px;
 	background: #ff3;
 }
-.chip {
+#board td .chip {
 	width: 52px;
 	height: 52px;
 	margin: 8px;
+	border: thin solid black;
 	border-radius: 27px;
+	cursor: pointer;
 }
-.chip.blank {
+#board td.blank .chip {
 	background: white;
+}
+
+#board td.black .chip {
+	background: #222;
+}
+
+#board td.red .chip {
+	background: #c44;
 }
