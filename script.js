@@ -28,10 +28,37 @@ function clickCol(col) {
 	for (let row = 1; row <= ROWS; row++) {
 		if (getChip(row, col) === "blank") {
 			setChip(row, col, curPlayerIsRed ? "red" : "black");
+			if (checkWin(row, col)) alert("You win!");
 			curPlayerIsRed = !curPlayerIsRed;
 			break;
 		}
 	}
+}
+
+function checkWin(row, col) {
+	// This currently won't work if match made in middle
+	// new algorithm: For each of the 4 directions, from center-3 to center+3, if wrong color count = 0, if right color count++, if count == 4 return true
+	if (row >= 4) {
+		if (col >= 4 && checkMatch(row, col, -1, -1)) return true; // Down-left
+		if (checkMatch(row, col, -1, 0)) return true; // Down
+		if (col <= COLS-4 && checkMatch(row, col, -1, 1)) return true; // Down-right
+	}
+	if (col >= 4 && checkMatch(row, col, 0, -1)) return true; // Left
+	if (col <= COLS-4 && checkMatch(row, col, 0, 1)) return true; // Right
+	if (row <= ROWS-4) {
+		if (col >= 4 && checkMatch(row, col, 1, -1)) return true; // Up-Left
+		if (col <= COLS-4 && checkMatch(row, col, 1, 1)) return true; // Up-Right
+	}
+	return false;
+}
+
+function checkMatch(row, col, incRow, incCol) {
+	for (var i = 0; i < 4; i++) {
+		if (getChip(row, col) != (curPlayerIsRed ? "red" : "black")) return false;
+		row += incRow;
+		col += incCol;
+	}
+	return true;
 }
 
 function getChip(row, col) {
