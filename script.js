@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			let td = document.createElement("td");
 			td.id = "cell"+row+col;
 			td.className = "blank";
-			let chip = document.createElement("div");
+			let chip = document.createElement("button");
 			chip.className = "chip";
 			chip.addEventListener("click", () => { clickCol(col); });
 			td.appendChild(chip);
@@ -69,5 +69,5 @@ function setChip(row, col, type) {
 }
 
 function msg(m) {
-		document.getElementById("msg").innerText = m;
+	document.getElementById("msg").innerText = m;
 }
