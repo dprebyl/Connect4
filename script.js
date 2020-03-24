@@ -105,15 +105,28 @@ function placeMove(col) {
 		document.body.classList.add("win");
 		gameState = GAME_STATES.WON;
 	}
-	else if (aiMoveFunc === null || curPlayer) { // Switch to other player
-		msg("player's turn");
-		setPlayer(!curPlayer);
-		gameState = GAME_STATES.IN_PROGRESS;
-	}
-	else { // Start AI's move
-		msg("AI thinking...");
-		setPlayer(!curPlayer);
-		setTimeout(aiMoveFunc, AI_THINK_TIME);
+	else {
+		// Check if the board is full
+		for (let col = 1; col <= COLS; col++) {
+			if (lowestEmptyRow(col) !== -1) break;
+			else if (col == COLS) {
+				msg("Full board - tie game!");
+				gameState = GAME_STATES.WON;
+				return;
+			}
+		}
+		
+		// Switch to other player's turn
+		if (aiMoveFunc === null || curPlayer) { 
+			msg("player's turn");
+			setPlayer(!curPlayer);
+			gameState = GAME_STATES.IN_PROGRESS;
+		}
+		else { // Start AI's move
+			msg("AI thinking...");
+			setPlayer(!curPlayer);
+			setTimeout(aiMoveFunc, AI_THINK_TIME);
+		}
 	}
 }
 
@@ -141,9 +154,8 @@ function easy_aiMove() {
 		setChip(row, col, curPlayerClass());
 		colScores[col] = score(row, col);
 		// Check if the AI placing here would allow the human to win next turn by placing on top of it
-		if (row < ROWS && canPlayer0Win(row+1, col) && colScores[col] < WIN_SCORE) {
+		if (row < ROWS && canPlayer0Win(row+1, col) && colScores[col] < WIN_SCORE)
 			colScores[col] = 0; // Only go here if it's the only valid move
-		}
 		setChip(row, col, "blank");
 	}
 	
