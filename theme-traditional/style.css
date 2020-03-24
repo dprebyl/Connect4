@@ -1,0 +1,49 @@
+body {
+	background: #35c;
+}
+#board {
+	margin: auto;
+	border: thin solid black;
+	border-collapse: collapse;
+}
+#board td {
+	width: 64px;
+	height: 64px;
+	background: #ff3;
+}
+.chip {
+	width: 52px;
+	height: 52px;
+	margin: 8px;
+	border: thin solid black;
+	border-radius: 27px;
+	cursor: pointer;
+}
+.blank .chip {
+	background: white;
+}
+
+.player0 .chip {
+	background: #222;
+}
+
+.player1 .chip {
+	background: #c44;
+}
+#info, #options {
+	width: 384px;
+	margin: auto;
+	font: 20px sans-serif;
+	text-align: center;
+	background: white;
+	border: thin solid black;
+	margin-top: 8px;
+	padding: 4px;
+}
+#current-player {
+	width: 64px;
+	margin: auto;
+}
+#options h3 {
+	margin: 0;
+}

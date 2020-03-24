@@ -1,27 +1,28 @@
-// Must be single digit
+// Rows are counted from the bottom up (bottom row = 1)
 const ROWS = 6;
 const COLS = 7;
 
 // First theme is default
 const THEMES = ["KU", "Traditional"];
 
-let curPlayerIsRed = false;
+// Players are 0 and 1 (false and true)
+let curPlayer = false;
 
 window.addEventListener("DOMContentLoaded", () => {
+	setPlayer(false);
+	
 	// Initialize board
 	let board = document.getElementById("board");
 	for (let row = ROWS; row >= 1; row--) {
 		let tr = document.createElement("tr");
 		for (let col = 1; col <= COLS; col++) {
 			let td = document.createElement("td");
-			td.id = "cell"+row+col;
 			td.className = "blank";
 			let chip = document.createElement("button");
 			chip.className = "chip";
 			chip.addEventListener("click", () => { clickCol(col); });
 			td.appendChild(chip);
 			tr.appendChild(td);
-			
 		}
 		board.appendChild(tr);
 	}
@@ -42,26 +43,26 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function setTheme(theme) {
-	document.getElementById("theme").href = "theme-" + theme + ".css";
+	document.getElementById("theme").href = "theme-" + theme + "/style.css";
 	localStorage.setItem("theme", theme);
 }
 
 function clickCol(col) {
+	// Find the lowest empty space in the column clicked
 	for (let row = 1; row <= ROWS; row++) {
 		if (getChip(row, col) === "blank") {
-			setChip(row, col, curPlayerIsRed ? "red" : "black");
+			setChip(row, col, curPlayerClass());
 			if (checkWin(row, col)) {
-				msg((curPlayerIsRed ? "Red" : "Black") + " player wins!");
-				curPlayerIsRed = !curPlayerIsRed; // Allows continued play
+				msg("player wins!");
 			}
 			else {
-				curPlayerIsRed = !curPlayerIsRed;
-				msg((curPlayerIsRed ? "Red" : "Black") + " player's turn");
+				msg("player's turn");
+				setPlayer(!curPlayer);
 			}
 			return;
 		}
 	}
-	msg("Invalid move (column full)");
+	msg("Invalid - column full");
 }
 
 function checkWin(row, col) {
@@ -70,7 +71,7 @@ function checkWin(row, col) {
 	function checkDir(incRow, incCol) {
 		var count = 0;
 		for (var i = -3; i <= 3; i++) {
-			if (getChip(row+incRow*i, col+incCol*i) === (curPlayerIsRed ? "red" : "black")) {
+			if (getChip(row+incRow*i, col+incCol*i) === curPlayerClass()) {
 				count++;
 				if (count >= 4) return true;
 			} else {
@@ -83,11 +84,20 @@ function checkWin(row, col) {
 
 function getChip(row, col) {
 	if (row < 1 || col < 1 || row > ROWS || col > COLS) return undefined;
-	return document.getElementById("cell"+row+col).className;
+	return document.querySelector("#board tr:nth-child(" + (ROWS-row+1) + ") td:nth-child(" + col + ")").className;
 }
 
 function setChip(row, col, type) {
-	document.getElementById("cell"+row+col).className = type;
+	document.querySelector("#board tr:nth-child(" + (ROWS-row+1) + ") td:nth-child(" + col + ")").className = type;
+}
+
+function curPlayerClass() { 
+	return "player" + (curPlayer ? "1" : "0");
+}
+
+function setPlayer(newPlayer) {
+	curPlayer = newPlayer;
+	document.getElementById("current-player").className = curPlayerClass();
 }
 
 function msg(m) {
