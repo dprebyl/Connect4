@@ -33,10 +33,12 @@ body {
 	padding: 0;
 	border: 1px solid transparent;
 	border-radius: 8px;
-	cursor: pointer;
 }
 #board td:hover {
 	border: 1px solid var(--ku-red);
+}
+#board td .chip {
+	cursor: pointer;
 }
 .player0 {
 	background-color: var(--ku-red);
