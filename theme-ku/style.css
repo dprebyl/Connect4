@@ -17,6 +17,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 	text-align: center;
+	overflow: hidden;
 }
 #board {
 	position: relative;
@@ -65,22 +66,35 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 }
-#current-player {
-	width: 12vh;
-	height: 12vh;
-	padding: 1.5vh;
-	border-radius: 6vh;
-	margin: 0.5vw auto;
-}
 #info {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	font: 20px sans-serif;
-	color: white;
+	font: bold 20px sans-serif;
+	-webkit-text-stroke: 1px black;
+	color: var(--ku-yellow);
 	text-align: center;
 	padding: 4px;
+}
+#current-player {
+	width: 12vh;
+	height: 12vh;
+	padding: 1.5vh;
+	border-radius: 6vh;
+	margin: 1vw auto;
+}
+#msg {
+	width: 180px;
+	margin: auto;
+}
+.win #info {
+	animation: zoom 0.5s ease infinite alternate;
+	overflow: hidden;	
+}
+@keyframes zoom {
+	from { }
+	to { transform: scale(2) translate(0, 50%); }
 }
 #settings {
 	position: absolute;

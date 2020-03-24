@@ -87,6 +87,7 @@ function clickCol(col) {
 			setChip(row, col, curPlayerClass());
 			if (checkWin(row, col)) {
 				msg("player wins!");
+				document.body.classList.add("win");
 				gameState = GAME_STATES.WON;
 			}
 			else {
@@ -118,6 +119,7 @@ function checkWin(row, col) {
 }
 
 function resetGame() {
+	document.body.classList.remove("win");
 	let chips = document.querySelectorAll("#board td");
 	for (let chip of chips) chip.className = "blank";
 	gameState = GAME_STATES.NOT_STARTED;
