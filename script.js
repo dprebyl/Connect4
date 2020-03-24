@@ -52,6 +52,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		board.appendChild(tr);
 	}
 
+	// Initialize settings
 	let settingsDiv = document.getElementById("settings");
 	for (let setting of SETTINGS) {
 		settingsDiv.appendChild(document.createTextNode(setting.name + ": "));
@@ -75,6 +76,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		settingsDiv.appendChild(dropdown);
 		settingsDiv.appendChild(document.createElement("br"));
 	}
+});
+
+// Number key shortcuts for placing pieces in columns
+document.addEventListener("keydown", e => {
+	let keyNum = parseInt(e.key);
+	if (keyNum >= 1 && keyNum <= COLS) clickCol(keyNum);
 });
 
 function setTheme(theme) {
