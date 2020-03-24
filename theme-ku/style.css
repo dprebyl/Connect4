@@ -1,6 +1,7 @@
 :root {
-	--ku-blue: #0051BA;
-	--ku-red: #E8000D;
+	--ku-blue: #0051ba;
+	--ku-red: #e8000d;
+	--ku-yellow: #ffc82d;
 }
 * {
 	box-sizing: border-box;
@@ -10,7 +11,7 @@ html, body {
 	height: 100%;
 }
 body {
-	background: #101904;
+	background: var(--ku-blue);
 	background-image: url(background.png);
 	background-size: auto 100vh;
 	background-repeat: no-repeat;
@@ -20,27 +21,34 @@ body {
 #board {
 	position: relative;
 	top: 31vh;
-	left: 1vh; /* Windows not perfectly centered in picture */
-	width: 40.5vh;
-	height: 51.5vh;
+	left: 0;
+	width: 42vh;
+	height: 56vh;
 	margin: auto;
 	border: 2px outset var(--ku-blue);
 	border-radius: 4px;
 }
 #board td {
 	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	cursor: pointer;
+}
+#board td:hover {
+	border: 1px solid var(--ku-red);
+}
+.player0 {
+	background-color: var(--ku-red);
+	border: 1px solid var(--ku-blue) !important;
+}
+.player1 {
+	background-color: var(--ku-blue);
+	border: 1px solid var(--ku-red) !important;
 }
 .chip {
+	border: 0 none;
 	width: 100%;
 	height: 100%;
-}
-#board td .chip {
-	cursor: pointer;
-	border: 1px solid transparent;
-}
-#board td .chip:hover {
-	border: 1px solid var(--ku-red);
-	border-radius: 4px;
 }
 .blank .chip {
 	background: transparent;
@@ -51,7 +59,6 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 }
-
 .player1 .chip {
 	background: url(player2.png);
 	background-size: contain;
@@ -65,14 +72,6 @@ body {
 	border-radius: 6vh;
 	margin: 0.5vw auto;
 }
-#current-player.player0 {
-	background-color: var(--ku-red);
-	border: 1px solid var(--ku-blue);
-}
-#current-player.player1 {
-	background-color: var(--ku-blue);
-	border: 1px solid var(--ku-red);
-}
 #info {
 	position: absolute;
 	top: 0;
@@ -85,7 +84,7 @@ body {
 }
 #options {
 	position: absolute;
-	bottom: 2px;
+	top: 2px;
 	right: 2px;
 	color: white;
 }

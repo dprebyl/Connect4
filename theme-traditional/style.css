@@ -1,21 +1,23 @@
 body {
 	background: #35c;
+	text-align: center;
 }
 #board {
 	margin: auto;
-	border: thin solid black;
+	border: 1px solid black;
 	border-collapse: collapse;
+	background: #ff3;
+	background: linear-gradient(135deg, #ff5 0%, #ff3 30%, #ff3 70%, #ee3 100%);
 }
 #board td {
 	width: 64px;
 	height: 64px;
-	background: #ff3;
 }
 .chip {
 	width: 52px;
 	height: 52px;
 	margin: 8px;
-	border: thin solid black;
+	border: 1px solid black;
 	border-radius: 27px;
 	cursor: pointer;
 }
@@ -25,20 +27,27 @@ body {
 
 .player0 .chip {
 	background: #222;
+	background: radial-gradient(circle, #444 0%, #222 50%, #000 100%);
 }
 
 .player1 .chip {
 	background: #c44;
+	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
 }
 #info, #options {
-	width: 384px;
+	display: inline-block;
+	width: 256px;
+	vertical-align: top;
 	margin: auto;
 	font: 20px sans-serif;
 	text-align: center;
 	background: white;
-	border: thin solid black;
+	border: 1px solid black;
 	margin-top: 8px;
 	padding: 4px;
+}
+#info {
+	margin-right: 8px;
 }
 #current-player {
 	width: 64px;
