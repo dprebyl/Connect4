@@ -2,6 +2,9 @@
 const ROWS = 6;
 const COLS = 7;
 
+// First theme is default
+const THEMES = ["KU", "Traditional"];
+
 let curPlayerIsRed = false;
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -22,7 +25,26 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 		board.appendChild(tr);
 	}
+	
+	// Initialize theme selector
+	let themeSelector = document.getElementById("theme-selector");
+	themeSelector.addEventListener("change", () => setTheme(themeSelector.value));
+	for (let theme of THEMES) {
+		let option = document.createElement("option");
+		option.value = theme.toLowerCase();
+		option.innerText = theme;
+		if (localStorage.getItem("theme") === theme.toLowerCase()) {
+			option.selected = "selected";
+			setTheme(theme.toLowerCase());
+		}
+		themeSelector.appendChild(option);
+	}
 });
+
+function setTheme(theme) {
+	document.getElementById("theme").href = "theme-" + theme + ".css";
+	localStorage.setItem("theme", theme);
+}
 
 function clickCol(col) {
 	for (let row = 1; row <= ROWS; row++) {
