@@ -82,13 +82,13 @@ body {
 	text-align: center;
 	padding: 4px;
 }
-#options {
+#settings {
 	position: absolute;
 	top: 2px;
 	right: 2px;
 	color: white;
 }
-#options h3 {
+#settings h3 {
 	margin: 0;
 	text-decoration: underline;
 }

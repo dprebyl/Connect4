@@ -34,7 +34,7 @@ body {
 	background: #c44;
 	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
 }
-#info, #options {
+#info, #settings {
 	display: inline-block;
 	width: 256px;
 	vertical-align: top;
@@ -53,6 +53,6 @@ body {
 	width: 64px;
 	margin: auto;
 }
-#options h3 {
+#settings h3 {
 	margin: 0;
 }
