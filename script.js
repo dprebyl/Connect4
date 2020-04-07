@@ -27,7 +27,7 @@ const GAME_STATES = {
 }
 let gameState = GAME_STATES.NOT_STARTED;
 
-// Players are 0 and 1 (false and true), 0 is always human and goes first
+// Players are false and true, false is always human and goes first
 let curPlayer = false;
 
 // Set to a function when playing against AI
@@ -53,7 +53,7 @@ function Chip(elementIn) {
 window.addEventListener("DOMContentLoaded", () => {
 	setPlayer(false);
 	
-	// Initialize board
+	// Initialize board and chips array
 	let board = document.getElementById("board");
 	for (let row = ROWS; row >= 1; row--) {
 		let tr = document.createElement("tr");
@@ -158,27 +158,30 @@ function placeMove(col) {
 
 /*
 	The easy AI's strategy is as follows:
-	- If there is somewhere it can go that directly prevents the opponent from getting 4 in a row next turn it will go in the first one it finds.
-	- If not, it will go in a space that creates the longest row of its own pieces.
-	- If multiple places yield the same longest row it picks a random one.
-	- It will not pick a place that allows the opponent to make 4 in a row next turn, unless doing so lets it win.
-	- To beat the AI, create two ways for you to get 4 in a row in the next turn.
+	- If the AI can win it will
+	- Next, if there is somewhere it can go that directly prevents the opponent from winning next turn it will go there
+	- Next, it will go in a space that creates the longest row of its own pieces.
+	- If multiple places yield are equally good it picks a random one.
+	- It will not pick a place that allows the opponent to win next turn, unless doing so lets it win.
+	- To beat the AI, create two ways for you to get win in the next turn.
 */
 function easy_aiMove() {
 	let colScores = [];
 	for (let col = 1; col <= COLS; col++) {
+		colScores[col] = 0;
+		
 		let row = lowestEmptyRow(col);
 		if (row === -1) { // Skip full columns
 			colScores[col] = -1;
 			continue; 
 		}
 		
-		// Check if the human would win by placing their piece here next turn - block them if so
-		if (canPlayer0Win(row, col)) return placeMove(col);
+		// Check if the human would win by placing their piece here next turn - block them if AI can't win this turn
+		if (canPlayer0Win(row, col)) colScores[col] = WIN_SCORE - 0.5;
 		
 		// Test how good placing in this column would be
 		setChip(row, col, curPlayer);
-		colScores[col] = score(row, col);
+		colScores[col] = Math.max(colScores[col], score(row, col));
 		// Check if the AI placing here would allow the human to win next turn by placing on top of it
 		if (row < ROWS && canPlayer0Win(row+1, col) && colScores[col] < WIN_SCORE)
 			colScores[col] = 0; // Only go here if it's the only valid move
@@ -232,8 +235,7 @@ function score(row, col) {
 
 function resetGame() {
 	document.body.classList.remove("win");
-	let chips = document.querySelectorAll("#board td");
-	for (let chip of chips) chip.className = "blank";
+	for (let chipRow of chips) for (let chip of chipRow) chip.setType("blank");
 	gameState = GAME_STATES.NOT_STARTED;
 	setPlayer(false);
 	setOpponent(document.getElementById("opponent").value); // In case opponent was changed mid-game
