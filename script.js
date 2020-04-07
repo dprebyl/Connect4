@@ -33,6 +33,23 @@ let curPlayer = false;
 // Set to a function when playing against AI
 let aiMoveFunc = null;
 
+// 2D array of the pieces on the board
+let chips = [];
+
+// Chip constructor
+function Chip(elementIn) {
+	let element = elementIn;
+	let type = "blank";
+	this.getType = function() { 
+		return type;
+	}
+	// Valid types: "blank"
+	this.setType = function(newType) {
+		type = newType;
+		element.className = typeof type == "boolean" ? "player" + +type : type;
+	}
+}
+
 window.addEventListener("DOMContentLoaded", () => {
 	setPlayer(false);
 	
@@ -40,6 +57,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	let board = document.getElementById("board");
 	for (let row = ROWS; row >= 1; row--) {
 		let tr = document.createElement("tr");
+		chips[row-1] = [];
 		for (let col = 1; col <= COLS; col++) {
 			let td = document.createElement("td");
 			td.className = "blank";
@@ -48,6 +66,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			chip.addEventListener("click", () => { clickCol(col); });
 			td.appendChild(chip);
 			tr.appendChild(td);
+			chips[row-1][col-1] = new Chip(td);
 		}
 		board.appendChild(tr);
 	}
@@ -106,7 +125,7 @@ function placeMove(col) {
 	let row = lowestEmptyRow(col);
 	if (row === -1) return msg("Invalid - column full");
 	
-	setChip(row, col, curPlayerClass());
+	setChip(row, col, curPlayer);
 	if (checkWin(row, col)) {
 		msg("player wins!");
 		document.body.classList.add("win");
@@ -158,7 +177,7 @@ function easy_aiMove() {
 		if (canPlayer0Win(row, col)) return placeMove(col);
 		
 		// Test how good placing in this column would be
-		setChip(row, col, curPlayerClass());
+		setChip(row, col, curPlayer);
 		colScores[col] = score(row, col);
 		// Check if the AI placing here would allow the human to win next turn by placing on top of it
 		if (row < ROWS && canPlayer0Win(row+1, col) && colScores[col] < WIN_SCORE)
@@ -176,7 +195,7 @@ function easy_aiMove() {
 	// See if the human player can win in this space
 	function canPlayer0Win(row, col) {
 		curPlayer = !curPlayer;
-		setChip(row, col, curPlayerClass());
+		setChip(row, col, curPlayer);
 		let wouldWin = checkWin(row, col);
 		curPlayer = !curPlayer;
 		setChip(row, col, "blank");
@@ -200,7 +219,7 @@ function score(row, col) {
 		let maxCount = 0;
 		let count = 0;
 		for (let i = 1-WIN_SCORE; i <= WIN_SCORE-1; i++) {
-			if (getChip(row+incRow*i, col+incCol*i) === curPlayerClass()) {
+			if (getChip(row+incRow*i, col+incCol*i) === curPlayer) {
 				count++;
 				if (count >= maxCount) maxCount = count;
 			} else {
@@ -229,20 +248,17 @@ function lowestEmptyRow(col) {
 
 function getChip(row, col) {
 	if (row < 1 || col < 1 || row > ROWS || col > COLS) return undefined;
-	return document.querySelector("#board tr:nth-child(" + (ROWS-row+1) + ") td:nth-child(" + col + ")").className;
+	return chips[row-1][col-1].getType();
 }
 
 function setChip(row, col, type) {
-	document.querySelector("#board tr:nth-child(" + (ROWS-row+1) + ") td:nth-child(" + col + ")").className = type;
-}
-
-function curPlayerClass() { 
-	return "player" + (curPlayer ? "1" : "0");
+	if (row < 1 || col < 1 || row > ROWS || col > COLS) return;
+	chips[row-1][col-1].setType(type);
 }
 
 function setPlayer(newPlayer) {
 	curPlayer = newPlayer;
-	document.getElementById("current-player").className = curPlayerClass();
+	document.getElementById("current-player").className = "player" + +curPlayer;
 }
 
 function msg(m) {
