@@ -11,12 +11,12 @@ const SETTINGS = [
 		"id": "theme",
 		"name": "Theme",
 		"changeCallback": setTheme,
-		"options": ["KU", "Traditional"]
+		"options": {"ku": "KU", "traditional": "Traditional"}
 	}, {
 		"id": "opponent",
 		"name": "Opponent",
 		"changeCallback": setOpponent,
-		"options": ["Human", "Easy AI", /*"Hard AI"*/]
+		"options": {"human": "Human", "easyAI": "Easy AI", /*"hardAI": "Hard AI"*/}
 	}
 ];
 
@@ -46,7 +46,7 @@ function Chip(elementIn) {
 	// Valid types: "blank"
 	this.setType = function(newType) {
 		type = newType;
-		element.className = typeof type == "boolean" ? "player" + +type : type;
+		element.className = typeof type === "boolean" ? "player" + +type : type;
 	}
 }
 
@@ -81,11 +81,10 @@ window.addEventListener("DOMContentLoaded", () => {
 			localStorage.setItem(setting.id, dropdown.value);
 			setting.changeCallback(dropdown.value)
 		});
-		for (let optionName of setting.options) {
+		for (let optionId in setting.options) {
 			let option = document.createElement("option");
-			// Replace all non-alphanumeric characters with _
-			option.value = optionName.toLowerCase().replace(/[^a-z0-9]/g,'_');
-			option.innerText = optionName;
+			option.value = optionId;
+			option.innerText = setting.options[optionId];
 			if (localStorage.getItem(setting.id) === option.value) {
 				option.selected = "selected";
 				setting.changeCallback(option.value);
@@ -107,12 +106,12 @@ function setTheme(theme) {
 	document.getElementById("theme").href = "theme-" + theme + "/style.css";
 }
 
-function setOpponent(opponent) {
+function setOpponent(opponentId) {
 	if (gameState === GAME_STATES.IN_PROGRESS) 
 		return msg("New opponent next game");
 	
-	// Function name in the format of opponent + "Move", ex: "easy_aiMove"
-	aiMoveFunc = (opponent == "human" ? null : window[opponent + "Move"]);
+	// Function name in the format of opponentId + "Move", ex: "easyAIMove"
+	aiMoveFunc = (opponentId == "human" ? null : window[opponentId + "Move"]);
 }
 
 function clickCol(col) {
@@ -165,7 +164,7 @@ function placeMove(col) {
 	- It will not pick a place that allows the opponent to win next turn, unless doing so lets it win.
 	- To beat the AI, create two ways for you to get win in the next turn.
 */
-function easy_aiMove() {
+function easyAIMove() {
 	let colScores = [];
 	for (let col = 1; col <= COLS; col++) {
 		colScores[col] = 0;
@@ -206,7 +205,7 @@ function easy_aiMove() {
 	}
 }
 
-function hard_aiMove() {
+function hardAIMove() {
 	msg("NYI");
 }
 
@@ -214,7 +213,8 @@ function checkWin(row, col) {
 	return score(row, col) >= WIN_SCORE;
 }
 
-// Returns the largest number of pieces in a row the current player has relative to this space (up to 2*WIN_SCORE-1)
+// Returns the largest number of pieces in a row the current player has relative to this space 
+// Not guarenteed to be the max possible when return value >= WIN_SCORE
 function score(row, col) {
 	return Math.max(checkDir(0, 1), checkDir(1, 0), checkDir(1, 1), checkDir(1, -1));
 
