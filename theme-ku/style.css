@@ -100,9 +100,14 @@ body {
 }
 #settings {
 	position: absolute;
-	top: 2px;
-	right: 2px;
-	color: white;
+	top: 0;
+	right: 0;
+	margin: 8px;
+	padding: 0 4px 4px 4px;
+	color: var(--ku-yellow);
+	background: var(--ku-blue);
+	border: 2px outset var(--ku-red);
+	border-radius: 4px;
 }
 #settings h3 {
 	margin: 0;
