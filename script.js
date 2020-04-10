@@ -16,7 +16,7 @@ const SETTINGS = [
 		"id": "opponent",
 		"name": "Opponent",
 		"changeCallback": setOpponent,
-		"options": {"human": "Human", "easyAI": "Easy AI", /*"hardAI": "Hard AI"*/}
+		"options": {"easyAI": "Easy AI", /*"hardAI": "Hard AI",*/ "human": "Human"}
 	}
 ];
 
@@ -31,7 +31,7 @@ let gameState = GAME_STATES.NOT_STARTED;
 let curPlayer = false;
 
 // Set to a function when playing against AI
-let aiMoveFunc = null;
+let aiMoveFunc = easyAIMove;
 
 // 2D array of the pieces on the board
 let chips = [];
@@ -43,7 +43,7 @@ function Chip(elementIn) {
 	this.getType = function() { 
 		return type;
 	}
-	// Valid types: "blank"
+	// Valid types: "blank", false (player0), or true (player1)
 	this.setType = function(newType) {
 		type = newType;
 		element.className = typeof type === "boolean" ? "player" + +type : type;
@@ -205,6 +205,7 @@ function easyAIMove() {
 	}
 }
 
+// My orignial plan was to do min-max but I'm not sure that's a reasonable amount of computation
 function hardAIMove() {
 	msg("NYI");
 }
