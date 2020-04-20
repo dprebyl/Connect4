@@ -2,41 +2,41 @@ body {
 	background: #35c;
 	text-align: center;
 }
-#board {
+#b { /* board */
 	margin: auto;
 	border: 1px solid black;
 	background: #ff3;
 }
-#board td, #current-player {
+#b td, #p {
 	width: 52px;
 	height: 52px;
 }
-#board td {
+#b td {
 	border: 4px solid #ff3;
 	border-radius: 33px;
 	cursor: pointer;
 }
-#current-player {
+#p { /* current player */
 	border: 1px solid black;
 	border-radius: 27px;
 	margin: auto;
+	margin-top: 8px;
 }
-.blank {
+.b { /* blank */
 	background: white;
 }
-.player0 {
+.p0 { /* player 0 */
 	background: #222;
 	background: radial-gradient(circle, #444 0%, #222 50%, #000 100%);
 }
-
-.player1 {
+.p1 { /* player 1 */
 	background: #c44;
 	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
 }
-.player0, .player1 {
-	pointer-events: none;
+.p0, .p1 {
+	pointer-events: none; /* Removes need to detect full columns in JS */
 }
-#info {
+#m { /* msg */
 	display: inline-block;
 	width: 256px;
 	vertical-align: top;
@@ -47,7 +47,10 @@ body {
 	border: 1px solid black;
 	margin-top: 8px;
 	padding: 4px;
-}
-#info {
 	margin-right: 8px;
 }
+/* Reduces amount of HTML/JS needed for messages */
+#m.m1:after { content: "goes first"; }
+#m.m2:after { content: "player's turn"; }
+#m.m3:after { content: "player wins!"; }
+#m.m4:after { content: "Full board - tie game!"; }

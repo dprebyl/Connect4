@@ -1,105 +1,45 @@
-let gameOver = false;
+/* 
+	Global variables:
+	g = is game over, psuedo-bool (0 or 1)
+	c = current player (0 or 1)
+*/
+g = 0; // Is game over, Psuedo-bool
+s(0); // Players are 0 and 1, 0 goes first
 
-// Players are false and true, false is always human and goes first
-let curPlayer = false;
+// Initialize board
+for (row = 6; row > 0; row--) {
+	let cells = "";
+	for (col = 1; col < 8; col++)
+		cells += '<td id="c'+row+col+'" class="b" onclick="m('+col+')">';
+	elId("b").innerHTML += "<tr>"+cells+"</tr>";
+}
 
-window.addEventListener("DOMContentLoaded", () => {
-	setPlayer(false);
-	
-	// Initialize board and chips array
-	let board = document.getElementById("board");
-	for (let row = 6; row >= 1; row--) {
-		let tr = document.createElement("tr");
-		for (let col = 1; col <= 7; col++) {
-			tr.innerHTML += '<td id="cell'+row+col+'" class="blank" onclick="clickCol('+col+')"></td>';
-		}
-		board.appendChild(tr);
-	}
-});
-
-function clickCol(col) {
-	if (gameOver) return resetGame();
+function m(col) { // move
+	if (g) location.reload(); 
 	let row = lowestEmptyRow(col);
-	
-	setChip(row, col, curPlayerClass());
-	if (checkWin(row, col)) {
-		msg("player wins!");
-		gameOver = true;
-	}
+	elId("c"+row+col).className = cClass();
+	if (winDir(0, 1) || winDir(1, 0) || winDir(1, 1) || winDir(1, -1)) msg(3);
 	else {
-		// Check if the board is full
-		for (let col = 1; col <= 7; col++) {
-			if (lowestEmptyRow(col) !== -1) break;
-			else if (col == 7) {
-				msg("Full board - tie game!");
-				gameOver = true;
-				return;
-			}
-		}
+		s(1-c); msg(2); // Switch to other player's turn
 		
-		// Switch to other player's turn
-		msg("player's turn");
-		setPlayer(!curPlayer);
-		gameState = 1;
+		// Check if the board is full
+		for (col = 1; col < 8; col++) if (lowestEmptyRow(col)) return;
+		msg(4);
 	}
-}
-
-function checkWin(row, col) {
-	return checkDir(0, 1) || checkDir(1, 0) || checkDir(1, 1) || checkDir(1, -1);
-
-	function checkDir(incRow, incCol) {
-		let count = 0;
-		for (let i = -3; i <= 3; i++) {
-			if (getChip(row+incRow*i, col+incCol*i) === curPlayerClass()) {
-				count++;
-				if (count >= 4) return true;
-			} else {
-				count = 0;
-			}
-		}
-		return false;
-	}
-}
-
-function resetGame() {
-	for (let row = 6; row >= 1; row--) {
-		for (let col = 1; col <= 7; col++) {
-			setChip(row, col, "blank");
+	g = 1; // Only get here if won or tie
+	
+	function winDir(incRow, incCol) {
+		for (i = -3; i < 4; i++) {
+			if (getChip(row+incRow*i, col+incCol*i) == cClass()) count++;
+			else count = 0;
+			if (count > 3) return 1;
 		}
 	}
-	gameOver = false;
-	setPlayer(false);
-	msg("goes first");
 }
 
-function lowestEmptyRow(col) {
-	for (let row = 1; row <= 6; row++)
-		if (getChip(row, col) === "blank") return row;
-	return -1; // Column full
-}
-
-function curPlayerClass() { 
-	return "player" + (curPlayer ? "1" : "0");
-}
-
-function getChip(row, col) {
-	if (row < 1 || col < 1 || row > 6 || col > 7) return undefined;
-	return document.getElementById("cell"+row+col).className;
-}
-
-function setChip(row, col, type) {
-	document.getElementById("cell"+row+col).className = type;
-}
-
-function curPlayerClass() { 
-	return "player" + +curPlayer;
-}
-
-function setPlayer(newPlayer) {
-	curPlayer = newPlayer;
-	document.getElementById("current-player").className = curPlayerClass();
-}
-
-function msg(m) {
-	document.getElementById("msg").innerText = m;
-}
+function lowestEmptyRow(col) { for (let row = 1; row < 7; row++) if (getChip(row, col) == "b") return row; }
+function getChip(row, col) { return (row < 1 || col < 1 || row > 6 || col > 7) ? 0 : elId("c"+row+col).className; }
+function cClass() { return "p" + c; }
+function s(newPlayer) { c = newPlayer; elId("p").className = cClass(); } // set player
+function msg(m) { elId("m").className = "m"+m; }
+function elId(id) { return document.querySelector("#"+id); }
