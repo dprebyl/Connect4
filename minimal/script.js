@@ -40,38 +40,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		for (let col = 1; col <= COLS; col++) {
 			let td = document.createElement("td");
 			td.className = "blank";
-			let chip = document.createElement("button");
-			chip.className = "chip";
-			chip.addEventListener("click", () => { clickCol(col); });
-			td.appendChild(chip);
+			td.addEventListener("click", () => { clickCol(col); });
 			tr.appendChild(td);
 			chips[row-1][col-1] = new Chip(td);
 		}
 		board.appendChild(tr);
-	}
-
-	// Initialize settings
-	let settingsDiv = document.getElementById("settings");
-	for (let setting of SETTINGS) {
-		settingsDiv.appendChild(document.createTextNode(setting.name + ": "));
-		let dropdown = document.createElement("select");
-		dropdown.id = setting.id;
-		dropdown.addEventListener("change", () => {
-			localStorage.setItem(setting.id, dropdown.value);
-			setting.changeCallback(dropdown.value)
-		});
-		for (let optionId in setting.options) {
-			let option = document.createElement("option");
-			option.value = optionId;
-			option.innerText = setting.options[optionId];
-			if (localStorage.getItem(setting.id) === option.value) {
-				option.selected = "selected";
-				setting.changeCallback(option.value);
-			}
-			dropdown.appendChild(option);
-		}
-		settingsDiv.appendChild(dropdown);
-		settingsDiv.appendChild(document.createElement("br"));
 	}
 });
 
@@ -98,16 +71,9 @@ function clickCol(col) {
 		}
 		
 		// Switch to other player's turn
-		if (aiMoveFunc === null || curPlayer) { 
-			msg("player's turn");
-			setPlayer(!curPlayer);
-			gameState = GAME_STATES.IN_PROGRESS;
-		}
-		else { // Start AI's move
-			msg("AI thinking...");
-			setPlayer(!curPlayer);
-			setTimeout(aiMoveFunc, AI_THINK_TIME);
-		}
+		msg("player's turn");
+		setPlayer(!curPlayer);
+		gameState = GAME_STATES.IN_PROGRESS;
 	}
 }
 
