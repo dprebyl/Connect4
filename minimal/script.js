@@ -1,4 +1,4 @@
-let gameState = 0; // 0 = not started, 1 = in progress, 2 = won
+let gameOver = false;
 
 // Players are false and true, false is always human and goes first
 let curPlayer = false;
@@ -18,15 +18,13 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function clickCol(col) {
-	if (gameState == 2) return resetGame();
+	if (gameOver) return resetGame();
 	let row = lowestEmptyRow(col);
-	if (row === -1) return msg("Invalid - column full");
 	
 	setChip(row, col, curPlayerClass());
 	if (checkWin(row, col)) {
 		msg("player wins!");
-		document.body.classList.add("win");
-		gameState = 2;
+		gameOver = true;
 	}
 	else {
 		// Check if the board is full
@@ -34,7 +32,7 @@ function clickCol(col) {
 			if (lowestEmptyRow(col) !== -1) break;
 			else if (col == 7) {
 				msg("Full board - tie game!");
-				gameState = 2;
+				gameOver = true;
 				return;
 			}
 		}
@@ -50,8 +48,8 @@ function checkWin(row, col) {
 	return checkDir(0, 1) || checkDir(1, 0) || checkDir(1, 1) || checkDir(1, -1);
 
 	function checkDir(incRow, incCol) {
-		var count = 0;
-		for (var i = -3; i <= 3; i++) {
+		let count = 0;
+		for (let i = -3; i <= 3; i++) {
 			if (getChip(row+incRow*i, col+incCol*i) === curPlayerClass()) {
 				count++;
 				if (count >= 4) return true;
@@ -64,15 +62,13 @@ function checkWin(row, col) {
 }
 
 function resetGame() {
-	document.body.classList.remove("win");
 	for (let row = 6; row >= 1; row--) {
 		for (let col = 1; col <= 7; col++) {
 			setChip(row, col, "blank");
 		}
 	}
-	gameState = 0;
+	gameOver = false;
 	setPlayer(false);
-	setOpponent(document.getElementById("opponent").value); // In case opponent was changed mid-game
 	msg("goes first");
 }
 
@@ -92,12 +88,11 @@ function getChip(row, col) {
 }
 
 function setChip(row, col, type) {
-	if (row < 1 || col < 1 || row > 6 || col > 7) return;
 	document.getElementById("cell"+row+col).className = type;
 }
 
 function curPlayerClass() { 
-	return "player" + (curPlayer ? "1" : "0");
+	return "player" + +curPlayer;
 }
 
 function setPlayer(newPlayer) {
