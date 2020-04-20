@@ -7,3 +7,6 @@ Features:
 - Detects wins, full columns, and full boards
 - Selectable themes complete with win animations
 - Hotkeys (1-7) for quickly placing pieces
+
+# [Minimal version](https://dprebyl.github.io/Connect4/minimal)
+Goal to uses as few characters of HTML and JS as possible (CSS does not count)
