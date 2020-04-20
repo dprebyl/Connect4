@@ -1,0 +1,65 @@
+body {
+	background: #35c;
+	text-align: center;
+}
+#board {
+	margin: auto;
+	border: 1px solid black;
+	border-collapse: collapse;
+	background: #ff3;
+	background: linear-gradient(135deg, #ff5 0%, #ff3 30%, #ff3 70%, #ee3 100%);
+}
+.win #board {
+	animation: rainbow 2s linear infinite;
+}
+@keyframes rainbow {
+	0% { filter: hue-rotate(0deg); }
+	100% { filter: hue-rotate(360deg); }
+}
+#board td {
+	width: 64px;
+	height: 64px;
+}
+.chip {
+	width: 52px;
+	height: 52px;
+	margin: 8px;
+	border: 1px solid black;
+	border-radius: 27px;
+	cursor: pointer;
+}
+.blank .chip {
+	background: white;
+}
+
+.player0 .chip {
+	background: #222;
+	background: radial-gradient(circle, #444 0%, #222 50%, #000 100%);
+}
+
+.player1 .chip {
+	background: #c44;
+	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
+}
+#info, #settings {
+	display: inline-block;
+	width: 256px;
+	vertical-align: top;
+	margin: auto;
+	font: 20px sans-serif;
+	text-align: center;
+	background: white;
+	border: 1px solid black;
+	margin-top: 8px;
+	padding: 4px;
+}
+#info {
+	margin-right: 8px;
+}
+#current-player {
+	width: 64px;
+	margin: auto;
+}
+#settings h3 {
+	margin: 0;
+}
