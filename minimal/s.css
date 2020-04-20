@@ -1,11 +1,17 @@
+/* Note: lang attributes are used instead of classes because it takes fewer characters to access in JS */
 body {
 	background: #35c;
 	text-align: center;
+}
+b { /* Used instead of div because it's less characters */
+	display: block;
 }
 #b { /* board */
 	margin: auto;
 	border: 1px solid black;
 	background: #ff3;
+	position: relative;
+	top: -56px; /* Swap position of #b and #p (for some reason non-table elements put in a table end up above) */
 }
 #b td, #p {
 	width: 52px;
@@ -15,25 +21,27 @@ body {
 	border: 4px solid #ff3;
 	border-radius: 33px;
 	cursor: pointer;
+	height: 62px; /* Only needed when not using doctype html */
 }
 #p { /* current player */
 	border: 1px solid black;
 	border-radius: 27px;
 	margin: auto;
-	margin-top: 8px;
+	position: relative;
+	top: 390px;
 }
-.b { /* blank */
+[lang=b] { /* blank */
 	background: white;
 }
-.p0 { /* player 0 */
+[lang=p0] { /* player 0 */
 	background: #222;
 	background: radial-gradient(circle, #444 0%, #222 50%, #000 100%);
 }
-.p1 { /* player 1 */
+[lang=p1] { /* player 1 */
 	background: #c44;
 	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
 }
-.p0, .p1 {
+[lang=p0], [lang=p1] {
 	pointer-events: none; /* Removes need to detect full columns in JS */
 }
 #m { /* msg */
@@ -48,9 +56,12 @@ body {
 	margin-top: 8px;
 	padding: 4px;
 	margin-right: 8px;
+	position: relative;
+	top: 50px;
+	left: -102px;
 }
 /* Reduces amount of HTML/JS needed for messages */
-#m.m1:after { content: "goes first"; }
-#m.m2:after { content: "player's turn"; }
-#m.m3:after { content: "player wins!"; }
-#m.m4:after { content: "Full board - tie game!"; }
+#m[lang=m1]:after { content: "goes first"; }
+#m[lang=m2]:after { content: "player's turn"; }
+#m[lang=m3]:after { content: "player wins!"; }
+#m[lang=m4]:after { content: "Full board - tie game!"; }
