@@ -9,7 +9,7 @@ g = (r, c) => (r < 1 || c < 1 || r > 6 || c > 7) ? 0 : e("c"+r+c).lang; // get c
 
 // Setup global variables
 o = 0; // Is game over, Psuedo-bool
-p = "p0";  // Players are "p0" and "p1", p0 goes first
+p = "p";  // Players are "p" and "q", p goes first
 z(); // Set chip display for current player
 t(1);
 // variables r and c anywhere refer to row and column
@@ -35,7 +35,7 @@ m = c => { // move (place piece)
 	z("c"+r+c);
 	if (w(0) || w(1, 0) || w(1) || w(-1)) t(3);
 	else {
-		p = "p" + (1-p.substr(1));
+		p = p>"p"?"p":"q";
 		z();
 		t(2); // Switch to other player's turn
 		

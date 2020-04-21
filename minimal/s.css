@@ -34,18 +34,18 @@ b { /* Used instead of div because it's less characters */
 	background: white;
 	background: radial-gradient(circle, #fff 67%, #000 68%);
 }
-[lang=p0] { /* player 0 */
+[lang=p] { /* player 0 */
 	background: #222;
 	background: radial-gradient(circle, #444 0%, #222 50%, #000 100%);
 }
-[lang=p1] { /* player 1 */
+[lang=q] { /* player 1 */
 	background: #c44;
 	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 67%);
 }
-#b [lang=p1] {
+#b [lang=q] {
 	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 67%, #000 68%);
 }
-[lang=p0], [lang=p1] {
+[lang=p], [lang=q] {
 	pointer-events: none; /* Removes need to detect full columns in JS */
 }
 #m { /* msg */
