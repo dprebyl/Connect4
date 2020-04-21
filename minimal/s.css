@@ -32,6 +32,7 @@ b { /* Used instead of div because it's less characters */
 }
 [lang=b] { /* blank */
 	background: white;
+	background: radial-gradient(circle, #fff 67%, #000 68%);
 }
 [lang=p0] { /* player 0 */
 	background: #222;
@@ -39,7 +40,10 @@ b { /* Used instead of div because it's less characters */
 }
 [lang=p1] { /* player 1 */
 	background: #c44;
-	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 100%);
+	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 67%);
+}
+#b [lang=p1] {
+	background: radial-gradient(circle, #c55 0%, #c33 50%, #c11 67%, #000 68%);
 }
 [lang=p0], [lang=p1] {
 	pointer-events: none; /* Removes need to detect full columns in JS */

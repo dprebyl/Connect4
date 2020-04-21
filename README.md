@@ -11,5 +11,5 @@ Features:
 ## [Minimal version](https://dprebyl.github.io/Connect4/minimal)
 - Goal to uses as few characters of HTML and JS as possible (CSS does not count)
 - Required functionality of detecting wins and full boards
-- Total size of HTML and JS: 682 bytes (599 JS + 83 HTML)
+- Total size of HTML and JS: 630 bytes (547 JS + 83 HTML)
 - For comparison, full size version is 8.48 KB
